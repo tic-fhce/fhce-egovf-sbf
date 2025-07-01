@@ -77,10 +77,14 @@ public class tiene_eServiceImpl implements tiene_eService {
 
     @Override
     @Transactional
-    public tiene_eDtoResponse delete(tiene_eDtoResponse response) {
-        tiene_eModel model = dao.findById(response.getCodigo())
-            .orElseThrow(() -> new RuntimeException("Registro no encontrado con ID: " + response.getCodigo()));
+    public tiene_eDtoResponse delete(Long codigo, Long idEstado) {
+        tiene_eModel model = dao.findByCodigoAndEstado(codigo, idEstado);
+        if (model == null) {
+            throw new RuntimeException("No se encontró la relación codigo=" + codigo
+                + " con estado=" + idEstado);
+        }
         dao.delete(model);
         return modelMapper.map(model, tiene_eDtoResponse.class);
     }
+
 }

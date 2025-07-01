@@ -5,15 +5,16 @@ import lombok.Data;
 
 @Data
 @Entity
-@IdClass(TieneEId.class)
 @Table(name = "tiene_e")
 public class tiene_eModel {
 
     @Id
-    @Column(name = "codigo")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id; 
+
+    @Column(name = "codigo", nullable = false)
     private Long codigo;
 
-    @Id
-    @Column(name = "id_estado")
+    @Column(name = "id_estado", nullable = false)
     private Long id_estado;
 }

@@ -21,41 +21,41 @@ public class usuarioController {
 
     @GetMapping("/listar")
     public ResponseEntity<List<usuarioDtoResponse>> listarUsuarios() {
-        return new ResponseEntity<>(usuarioService.listarUsuarios(), HttpStatus.OK);
+        return ResponseEntity.ok(usuarioService.listarUsuarios());
     }
 
-    @GetMapping("/buscar-nombre")
-    public ResponseEntity<usuarioDtoResponse> buscarPorNombre(@RequestParam String nombre) {
-        return new ResponseEntity<>(usuarioService.buscarPorNombreExacto(nombre), HttpStatus.OK);
-    }
-
-    @GetMapping("/buscar-nombre-contiene")
-    public ResponseEntity<List<usuarioDtoResponse>> buscarPorNombreContiene(@RequestParam String nombre) {
-        return new ResponseEntity<>(usuarioService.buscarPorNombreContiene(nombre), HttpStatus.OK);
-    }
-
-    @GetMapping("/buscar-rol")
-    public ResponseEntity<List<usuarioDtoResponse>> buscarPorRol(@RequestParam String rol) {
-        return new ResponseEntity<>(usuarioService.buscarPorRol(rol), HttpStatus.OK);
-    }
-
-    @GetMapping("/contar-rol")
-    public ResponseEntity<Long> contarPorRol(@RequestParam String rol) {
-        return new ResponseEntity<>(usuarioService.contarPorRol(rol), HttpStatus.OK);
-    }
-
-    @PostMapping("/agregar")
+    @PostMapping("/add")
     public ResponseEntity<usuarioDtoResponse> agregar(@RequestBody usuarioDtoRequest dto) {
         return new ResponseEntity<>(usuarioService.addUsuario(dto), HttpStatus.CREATED);
     }
 
-    @PutMapping("/editar")
+    @PutMapping("/edit")
     public ResponseEntity<usuarioDtoResponse> editar(@RequestBody usuarioDtoResponse dto) {
-        return new ResponseEntity<>(usuarioService.editUsuario(dto), HttpStatus.OK);
+        return ResponseEntity.ok(usuarioService.editUsuario(dto));
     }
 
-    @DeleteMapping("/eliminar")
+    @DeleteMapping("/delete")
     public ResponseEntity<usuarioDtoResponse> eliminar(@RequestBody usuarioDtoResponse dto) {
-        return new ResponseEntity<>(usuarioService.deleteUsuario(dto), HttpStatus.OK);
+        return ResponseEntity.ok(usuarioService.deleteUsuario(dto));
+    }
+
+    @GetMapping("/buscar/nombre")
+    public ResponseEntity<usuarioDtoResponse> buscarPorNombre(@RequestParam String nombre) {
+        return ResponseEntity.ok(usuarioService.buscarPorNombreExacto(nombre));
+    }
+
+    @GetMapping("/buscar/nombre-like")
+    public ResponseEntity<List<usuarioDtoResponse>> buscarPorNombreContiene(@RequestParam String nombre) {
+        return ResponseEntity.ok(usuarioService.buscarPorNombreContiene(nombre));
+    }
+
+    @GetMapping("/buscar/rol")
+    public ResponseEntity<List<usuarioDtoResponse>> buscarPorRol(@RequestParam String rol) {
+        return ResponseEntity.ok(usuarioService.buscarPorRol(rol));
+    }
+
+    @GetMapping("/contar/rol")
+    public ResponseEntity<Long> contarPorRol(@RequestParam String rol) {
+        return ResponseEntity.ok(usuarioService.contarPorRol(rol));
     }
 }

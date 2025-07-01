@@ -39,33 +39,33 @@ public class lectorController {
         return ResponseEntity.ok(lectorService.deleteLector(response));
     }
 
-    @GetMapping("/buscar/ci/{ci}")
-    public ResponseEntity<lectorDtoResponse> buscarPorCi(@PathVariable int ci) {
+    @GetMapping("/buscar/ci")
+    public ResponseEntity<lectorDtoResponse> buscarPorCi(@RequestParam int ci) {
         return ResponseEntity.ok(lectorService.findByCi(ci));
     }
 
-    @GetMapping("/buscar/ru/{ru}")
-    public ResponseEntity<lectorDtoResponse> buscarPorRu(@PathVariable int ru) {
+    @GetMapping("/buscar/ru")
+    public ResponseEntity<lectorDtoResponse> buscarPorRu(@RequestParam int ru) {
         return ResponseEntity.ok(lectorService.findByRu(ru));
     }
 
-    @GetMapping("/buscar/nombre/{nombre}")
-    public ResponseEntity<List<lectorDtoResponse>> buscarPorNombre(@PathVariable String nombre) {
+    @GetMapping("/buscar/nombre")
+    public ResponseEntity<List<lectorDtoResponse>> buscarPorNombre(@RequestParam String nombre) {
         return ResponseEntity.ok(lectorService.findByNombre(nombre));
     }
 
-    @GetMapping("/buscar/nombre-like/{nombre}")
-    public ResponseEntity<List<lectorDtoResponse>> buscarNombreLike(@PathVariable String nombre) {
+    @GetMapping("/buscar/nombre-like")
+    public ResponseEntity<List<lectorDtoResponse>> buscarNombreLike(@RequestParam String nombre) {
         return ResponseEntity.ok(lectorService.findByNombreLike(nombre));
     }
 
-    @GetMapping("/buscar/carrera/{carrera}")
-    public ResponseEntity<List<lectorDtoResponse>> buscarPorCarrera(@PathVariable String carrera) {
+    @GetMapping("/buscar/carrera")
+    public ResponseEntity<List<lectorDtoResponse>> buscarPorCarrera(@RequestParam String carrera) {
         return ResponseEntity.ok(lectorService.findByCarrera(carrera));
     }
 
-    @GetMapping("/contar/carrera/{carrera}")
-    public ResponseEntity<Long> contarPorCarrera(@PathVariable String carrera) {
+    @GetMapping("/contar/carrera")
+    public ResponseEntity<Long> contarPorCarrera(@RequestParam String carrera) {
         return ResponseEntity.ok(lectorService.countByCarrera(carrera));
     }
 }

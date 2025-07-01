@@ -28,13 +28,13 @@ public class prestamoController {
         return service.findAll();
     }
 
-    @GetMapping("/lector/{id}")
-    public List<prestamoDtoResponse> byLector(@PathVariable Long id) {
+    @GetMapping("/lector")
+    public List<prestamoDtoResponse> byLector(@RequestParam Long id) {
         return service.buscarPorLector(id);
     }
 
-    @GetMapping("/fecha/{fecha}")
-    public List<prestamoDtoResponse> byFecha(@PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fecha) {
+    @GetMapping("/fecha")
+    public List<prestamoDtoResponse> byFecha(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fecha) {
         return service.buscarPorFechaPrestamo(fecha);
     }
 
@@ -49,8 +49,9 @@ public class prestamoController {
     }
 
     @GetMapping("/rango")
-    public List<prestamoDtoResponse> porRango(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate desde,
-                                              @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate hasta) {
+    public List<prestamoDtoResponse> porRango(
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate desde,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate hasta) {
         return service.buscarEntreFechas(desde, hasta);
     }
 
@@ -64,8 +65,8 @@ public class prestamoController {
         return service.buscarPrestamosDeHoy();
     }
 
-    @GetMapping("/contar/lector/{id}")
-    public Long contarPorLector(@PathVariable Long id) {
+    @GetMapping("/contar/lector")
+    public Long contarPorLector(@RequestParam Long id) {
         return service.contarPorLector(id);
     }
 
@@ -93,4 +94,4 @@ public class prestamoController {
     public prestamoDtoResponse delete(@RequestBody prestamoDtoResponse prestamo) {
         return service.delete(prestamo);
     }
-} 
+}

@@ -1,7 +1,6 @@
 package com.fhce.sbf.controller;
 
 import java.util.List;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -48,8 +47,8 @@ public class facultadController {
     }
 
     // 🔍 Buscar facultad por nombre exacto
-    @GetMapping("/buscar/nombre/{nombre}")
-    public ResponseEntity<facultadDtoResponse> buscarPorNombre(@PathVariable String nombre) {
+    @GetMapping("/buscar/nombre")
+    public ResponseEntity<facultadDtoResponse> buscarPorNombre(@RequestParam String nombre) {
         try {
             return new ResponseEntity<>(facultadService.buscarPorNombre(nombre), HttpStatus.OK);
         } catch (Exception e) {
@@ -58,8 +57,8 @@ public class facultadController {
     }
 
     // 🔎 Buscar facultades por coincidencia
-    @GetMapping("/buscar/contiene/{nombre}")
-    public ResponseEntity<List<facultadDtoResponse>> buscarPorNombreContiene(@PathVariable String nombre) {
+    @GetMapping("/buscar/contiene")
+    public ResponseEntity<List<facultadDtoResponse>> buscarPorNombreContiene(@RequestParam String nombre) {
         try {
             return new ResponseEntity<>(facultadService.buscarPorNombreContiene(nombre), HttpStatus.OK);
         } catch (Exception e) {
@@ -86,6 +85,7 @@ public class facultadController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
     @DeleteMapping("/deleteFacultad")
     public ResponseEntity<facultadDtoResponse> deleteFacultad(@RequestBody facultadDtoResponse facultadDtoResponse) {
         try {
@@ -94,5 +94,4 @@ public class facultadController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
 }

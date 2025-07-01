@@ -63,6 +63,7 @@ public class tiene_eController {
 
     @DeleteMapping
     public tiene_eDtoResponse delete(@RequestBody tiene_eDtoResponse response) {
-        return service.delete(response);
+        return service.delete(response.getCodigo(), response.getId_estado());
     }
+
 }

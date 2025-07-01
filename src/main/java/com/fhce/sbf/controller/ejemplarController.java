@@ -36,13 +36,14 @@ public class ejemplarController {
         return new ResponseEntity<>(ejemplarService.deleteEjemplar(dto), HttpStatus.OK);
     }
 
-    @GetMapping("/estado/{estado}")
-    public ResponseEntity<List<ejemplarDtoResponse>> byEstado(@PathVariable String estado) {
+    // Cambiado a @RequestParam
+    @GetMapping("/buscar/estado")
+    public ResponseEntity<List<ejemplarDtoResponse>> byEstado(@RequestParam String estado) {
         return new ResponseEntity<>(ejemplarService.findByEstado(estado), HttpStatus.OK);
     }
 
-    @GetMapping("/libro/{idLibro}")
-    public ResponseEntity<List<ejemplarDtoResponse>> byLibro(@PathVariable Long idLibro) {
+    @GetMapping("/buscar/libro")
+    public ResponseEntity<List<ejemplarDtoResponse>> byLibro(@RequestParam Long idLibro) {
         return new ResponseEntity<>(ejemplarService.findByLibro(idLibro), HttpStatus.OK);
     }
 

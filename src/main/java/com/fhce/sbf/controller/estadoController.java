@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/estado")
 @RequiredArgsConstructor
 public class estadoController {
+
     private final estadoService service;
 
     @GetMapping("/listar")
@@ -21,18 +22,18 @@ public class estadoController {
         return service.listarTodos();
     }
 
-    @GetMapping("/buscar-tipo/{tipo}")
-    public estadoDtoResponse buscarPorTipo(@PathVariable String tipo) {
+    @GetMapping("/buscar-tipo")
+    public estadoDtoResponse buscarPorTipo(@RequestParam String tipo) {
         return service.buscarPorTipo(tipo);
     }
 
-    @GetMapping("/buscar-tipo-like/{tipo}")
-    public List<estadoDtoResponse> buscarPorTipoContiene(@PathVariable String tipo) {
+    @GetMapping("/buscar-tipo-like")
+    public List<estadoDtoResponse> buscarPorTipoContiene(@RequestParam String tipo) {
         return service.buscarPorTipoContiene(tipo);
     }
 
-    @GetMapping("/buscar-id/{id}")
-    public estadoDtoResponse buscarPorId(@PathVariable Long id) {
+    @GetMapping("/buscar-id")
+    public estadoDtoResponse buscarPorId(@RequestParam Long id) {
         return service.buscarPorId(id);
     }
 
