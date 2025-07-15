@@ -46,8 +46,8 @@ public class bibliotecaController {
         }
     }
 
-    @GetMapping("/buscar/nombre/{nombre}")
-    public ResponseEntity<List<bibliotecaDtoResponse>> buscarPorNombre(@PathVariable String nombre) {
+    @GetMapping("/buscar/nombre")
+    public ResponseEntity<List<bibliotecaDtoResponse>> buscarPorNombre(@RequestParam String nombre) {
         try {
             return new ResponseEntity<>(bibliotecaService.buscarPorNombre(nombre), HttpStatus.OK);
         } catch (Exception e) {
@@ -55,8 +55,8 @@ public class bibliotecaController {
         }
     }
 
-    @GetMapping("/buscar/facultad/{idFacultad}")
-    public ResponseEntity<List<bibliotecaDtoResponse>> buscarPorFacultad(@PathVariable Long idFacultad) {
+    @GetMapping("/buscar/facultad")
+    public ResponseEntity<List<bibliotecaDtoResponse>> buscarPorFacultad(@RequestParam Long idFacultad) {
         try {
             return new ResponseEntity<>(bibliotecaService.buscarPorFacultad(idFacultad), HttpStatus.OK);
         } catch (Exception e) {
@@ -64,8 +64,8 @@ public class bibliotecaController {
         }
     }
 
-    @GetMapping("/buscar/horario/{horario}") //requestparam
-    public ResponseEntity<List<bibliotecaDtoResponse>> buscarPorHorario(@PathVariable String horario) {
+    @GetMapping("/buscar/horario")
+    public ResponseEntity<List<bibliotecaDtoResponse>> buscarPorHorario(@RequestParam String horario) {
         try {
             return new ResponseEntity<>(bibliotecaService.buscarPorHorario(horario), HttpStatus.OK);
         } catch (Exception e) {
@@ -73,14 +73,15 @@ public class bibliotecaController {
         }
     }
 
-    @GetMapping("/contar/facultad/{idFacultad}")
-    public ResponseEntity<Long> contarPorFacultad(@PathVariable Long idFacultad) {
+    @GetMapping("/contar/facultad")
+    public ResponseEntity<Long> contarPorFacultad(@RequestParam Long idFacultad) {
         try {
             return new ResponseEntity<>(bibliotecaService.contarPorFacultad(idFacultad), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(0L, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
     @DeleteMapping("/deleteBiblioteca")
     public ResponseEntity<bibliotecaDtoResponse> deleteBiblioteca(@RequestBody bibliotecaDtoResponse bibliotecaDtoResponse) {
         try {

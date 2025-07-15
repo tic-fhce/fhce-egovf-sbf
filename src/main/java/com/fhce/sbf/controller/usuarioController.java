@@ -20,42 +20,82 @@ public class usuarioController {
     private final usuarioService usuarioService;
 
     @GetMapping("/listar")
-    public ResponseEntity<List<usuarioDtoResponse>> listarUsuarios() {
-        return ResponseEntity.ok(usuarioService.listarUsuarios());
+    public ResponseEntity<?> listarUsuarios() {
+        try {
+            return ResponseEntity.ok(usuarioService.listarUsuarios());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body("Error al listar usuarios: " + e.getMessage());
+        }
     }
 
     @PostMapping("/add")
-    public ResponseEntity<usuarioDtoResponse> agregar(@RequestBody usuarioDtoRequest dto) {
-        return new ResponseEntity<>(usuarioService.addUsuario(dto), HttpStatus.CREATED);
+    public ResponseEntity<?> agregar(@RequestBody usuarioDtoRequest dto) {
+        try {
+            return new ResponseEntity<>(usuarioService.addUsuario(dto), HttpStatus.CREATED);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body("Error al agregar usuario: " + e.getMessage());
+        }
     }
 
     @PutMapping("/edit")
-    public ResponseEntity<usuarioDtoResponse> editar(@RequestBody usuarioDtoResponse dto) {
-        return ResponseEntity.ok(usuarioService.editUsuario(dto));
+    public ResponseEntity<?> editar(@RequestBody usuarioDtoResponse dto) {
+        try {
+            return ResponseEntity.ok(usuarioService.editUsuario(dto));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body("Error al editar usuario: " + e.getMessage());
+        }
     }
 
     @DeleteMapping("/delete")
-    public ResponseEntity<usuarioDtoResponse> eliminar(@RequestBody usuarioDtoResponse dto) {
-        return ResponseEntity.ok(usuarioService.deleteUsuario(dto));
+    public ResponseEntity<?> eliminar(@RequestBody usuarioDtoResponse dto) {
+        try {
+            return ResponseEntity.ok(usuarioService.deleteUsuario(dto));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body("Error al eliminar usuario: " + e.getMessage());
+        }
     }
 
     @GetMapping("/buscar/nombre")
-    public ResponseEntity<usuarioDtoResponse> buscarPorNombre(@RequestParam String nombre) {
-        return ResponseEntity.ok(usuarioService.buscarPorNombreExacto(nombre));
+    public ResponseEntity<?> buscarPorNombre(@RequestParam String nombre) {
+        try {
+            return ResponseEntity.ok(usuarioService.buscarPorNombreExacto(nombre));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body("Usuario no encontrado con nombre: " + nombre);
+        }
     }
 
     @GetMapping("/buscar/nombre-like")
-    public ResponseEntity<List<usuarioDtoResponse>> buscarPorNombreContiene(@RequestParam String nombre) {
-        return ResponseEntity.ok(usuarioService.buscarPorNombreContiene(nombre));
+    public ResponseEntity<?> buscarPorNombreContiene(@RequestParam String nombre) {
+        try {
+            return ResponseEntity.ok(usuarioService.buscarPorNombreContiene(nombre));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body("Error al buscar usuarios por nombre: " + e.getMessage());
+        }
     }
 
     @GetMapping("/buscar/rol")
-    public ResponseEntity<List<usuarioDtoResponse>> buscarPorRol(@RequestParam String rol) {
-        return ResponseEntity.ok(usuarioService.buscarPorRol(rol));
+    public ResponseEntity<?> buscarPorRol(@RequestParam String rol) {
+        try {
+            return ResponseEntity.ok(usuarioService.buscarPorRol(rol));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body("Error al buscar usuarios por rol: " + e.getMessage());
+        }
     }
 
     @GetMapping("/contar/rol")
-    public ResponseEntity<Long> contarPorRol(@RequestParam String rol) {
-        return ResponseEntity.ok(usuarioService.contarPorRol(rol));
+    public ResponseEntity<?> contarPorRol(@RequestParam String rol) {
+        try {
+            return ResponseEntity.ok(usuarioService.contarPorRol(rol));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body("Error al contar usuarios por rol: " + e.getMessage());
+        }
     }
 }
