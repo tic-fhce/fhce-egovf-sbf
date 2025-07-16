@@ -11,7 +11,7 @@ import com.fhce.sbf.service.tiene_eService;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/api/tiene_e")
+@RequestMapping("/fhce-sbf/tiene_e")
 @RequiredArgsConstructor
 public class tiene_eController {
 

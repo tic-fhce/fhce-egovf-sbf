@@ -11,7 +11,7 @@ import com.fhce.sbf.service.lectorService;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/fhce-egovf-sbf/lector")
+@RequestMapping("/fhce-sbf/lector")
 @RequiredArgsConstructor
 public class lectorController {
 

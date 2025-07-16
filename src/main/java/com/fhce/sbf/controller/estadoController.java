@@ -11,7 +11,7 @@ import com.fhce.sbf.service.estadoService;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/estado")
+@RequestMapping("/fhce-sbf/estado")
 @RequiredArgsConstructor
 public class estadoController {
 

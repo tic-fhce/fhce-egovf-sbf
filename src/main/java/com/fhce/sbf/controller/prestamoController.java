@@ -12,8 +12,11 @@ import com.fhce.sbf.dto.prestamoDtoRequest;
 import com.fhce.sbf.dto.prestamoDtoResponse;
 import com.fhce.sbf.service.prestamoService;
 
+import lombok.RequiredArgsConstructor;
+
 @RestController
-@RequestMapping("/api/prestamo")
+@RequestMapping("/fhce-sbf/prestamo")
+@RequiredArgsConstructor
 public class prestamoController {
 
     @Autowired
