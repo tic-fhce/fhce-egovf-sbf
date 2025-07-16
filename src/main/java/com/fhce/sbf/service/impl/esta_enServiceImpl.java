@@ -23,54 +23,52 @@ public class esta_enServiceImpl implements esta_enService {
     @Override
     public esta_enDtoResponse save(esta_enDtoRequest request) {
         esta_enModel model = new esta_enModel();
-        model.setId_libro(request.getId_libro());
-        model.setId_prestamo(request.getId_prestamo());
+        model.setIdLibro(request.getIdLibro());
+        model.setIdPrestamo(request.getIdPrestamo());
 
         esta_enModel saved = dao.save(model);
-        return new esta_enDtoResponse(saved.getId_esta_en(), saved.getId_libro(), saved.getId_prestamo());
+        return new esta_enDtoResponse(saved.getIdEstaEn(), saved.getIdLibro(), saved.getIdPrestamo());
     }
 
     @Override
     public List<esta_enDtoResponse> findAll() {
         return dao.findAll().stream()
-            .map(m -> new esta_enDtoResponse(m.getId_esta_en(), m.getId_libro(), m.getId_prestamo()))
+            .map(m -> new esta_enDtoResponse(m.getIdEstaEn(), m.getIdLibro(), m.getIdPrestamo()))
             .collect(Collectors.toList());
     }
 
     @Override
     public List<esta_enDtoResponse> buscarPorLibro(Long idLibro) {
-        return dao.findById_libro(idLibro).stream()
-            .map(m -> new esta_enDtoResponse(m.getId_esta_en(), m.getId_libro(), m.getId_prestamo()))
+        return dao.findByIdLibro(idLibro).stream()
+            .map(m -> new esta_enDtoResponse(m.getIdEstaEn(), m.getIdLibro(), m.getIdPrestamo()))
             .collect(Collectors.toList());
     }
 
     @Override
     public List<esta_enDtoResponse> buscarPorPrestamo(Long idPrestamo) {
-        return dao.findById_prestamo(idPrestamo).stream()
-            .map(m -> new esta_enDtoResponse(m.getId_esta_en(), m.getId_libro(), m.getId_prestamo()))
+        return dao.findByIdPrestamo(idPrestamo).stream()
+            .map(m -> new esta_enDtoResponse(m.getIdEstaEn(), m.getIdLibro(), m.getIdPrestamo()))
             .collect(Collectors.toList());
     }
 
     @Override
     public Long contarLibrosEnPrestamo(Long idPrestamo) {
-        return dao.contarLibrosEnPrestamo(idPrestamo);
+        return dao.countByIdPrestamo(idPrestamo);
     }
 
     @Override
     public Long existeRelacion(Long idLibro, Long idPrestamo) {
-        return dao.existeRelacion(idLibro, idPrestamo);
+        return dao.existsByIdLibroAndIdPrestamo(idLibro, idPrestamo) ? 1L : 0L;
     }
 
     @Override
     public esta_enDtoResponse delete(Long idLibro, Long idPrestamo) {
-        Optional<esta_enModel> opt = dao.findAll().stream()
-            .filter(e -> e.getId_libro().equals(idLibro) && e.getId_prestamo().equals(idPrestamo))
-            .findFirst();
+        Optional<esta_enModel> opt = dao.findByIdLibroAndIdPrestamo(idLibro, idPrestamo);
 
         if (opt.isPresent()) {
-            dao.deleteById_libroAndId_prestamo(idLibro, idPrestamo);
+            dao.deleteByIdLibroAndIdPrestamo(idLibro, idPrestamo);
             esta_enModel e = opt.get();
-            return new esta_enDtoResponse(e.getId_esta_en(), e.getId_libro(), e.getId_prestamo());
+            return new esta_enDtoResponse(e.getIdEstaEn(), e.getIdLibro(), e.getIdPrestamo());
         } else {
             throw new RuntimeException("No se encontró la relación a eliminar.");
         }

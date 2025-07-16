@@ -7,7 +7,7 @@ import lombok.AllArgsConstructor;
 @NoArgsConstructor
 @Data
 public class esta_enDtoResponse {
-		private Long id_esta_en;
-		private Long id_libro;
-	    private Long id_prestamo;
+		private Long idEstaEn;
+		private Long idLibro;
+	    private Long idPrestamo;
 }

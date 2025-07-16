@@ -37,9 +37,9 @@ public class esta_enController {
     }
 
     @GetMapping("/buscar/libro")
-    public ResponseEntity<?> buscarPorLibro(@RequestParam Long idLibro) {
+    public ResponseEntity<?> buscarPorLibro(@RequestParam Long id_libro) {
         try {
-            return ResponseEntity.ok(service.buscarPorLibro(idLibro));
+            return ResponseEntity.ok(service.buscarPorLibro(id_libro));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Error al buscar por libro: " + e.getMessage());
@@ -47,9 +47,9 @@ public class esta_enController {
     }
 
     @GetMapping("/buscar/prestamo")
-    public ResponseEntity<?> buscarPorPrestamo(@RequestParam Long idPrestamo) {
+    public ResponseEntity<?> buscarPorPrestamo(@RequestParam Long id_prestamo) {
         try {
-            return ResponseEntity.ok(service.buscarPorPrestamo(idPrestamo));
+            return ResponseEntity.ok(service.buscarPorPrestamo(id_prestamo));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Error al buscar por préstamo: " + e.getMessage());
@@ -57,9 +57,9 @@ public class esta_enController {
     }
 
     @GetMapping("/contar/prestamo")
-    public ResponseEntity<?> contarLibrosEnPrestamo(@RequestParam Long idPrestamo) {
+    public ResponseEntity<?> contarLibrosEnPrestamo(@RequestParam Long id_prestamo) {
         try {
-            return ResponseEntity.ok(service.contarLibrosEnPrestamo(idPrestamo));
+            return ResponseEntity.ok(service.contarLibrosEnPrestamo(id_prestamo));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Error al contar libros en préstamo: " + e.getMessage());
@@ -67,9 +67,9 @@ public class esta_enController {
     }
 
     @GetMapping("/existe")
-    public ResponseEntity<?> existeRelacion(@RequestParam Long idLibro, @RequestParam Long idPrestamo) {
+    public ResponseEntity<?> existeRelacion(@RequestParam Long id_libro, @RequestParam Long id_prestamo) {
         try {
-            return ResponseEntity.ok(service.existeRelacion(idLibro, idPrestamo));
+            return ResponseEntity.ok(service.existeRelacion(id_libro, id_prestamo));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Error al verificar existencia: " + e.getMessage());
@@ -77,9 +77,9 @@ public class esta_enController {
     }
 
     @DeleteMapping("/delete")
-    public ResponseEntity<?> delete(@RequestParam Long idLibro, @RequestParam Long idPrestamo) {
+    public ResponseEntity<?> delete(@RequestParam Long id_libro, @RequestParam Long id_prestamo) {
         try {
-            return ResponseEntity.ok(service.delete(idLibro, idPrestamo));
+            return ResponseEntity.ok(service.delete(id_libro, id_prestamo));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body("Error al eliminar relación: " + e.getMessage());

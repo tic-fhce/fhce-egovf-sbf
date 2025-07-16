@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class esta_enDtoRequest {
-	private Long id_libro;
-	private Long id_prestamo;
+	private Long idLibro;
+	private Long idPrestamo;
 }

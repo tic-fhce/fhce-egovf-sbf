@@ -11,11 +11,11 @@ public class esta_enModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_esta_en; 
+    private Long idEstaEn;
 
     @Column(name = "id_libro", nullable = false)
-    private Long id_libro;
+    private Long idLibro;
 
     @Column(name = "id_prestamo", nullable = false)
-    private Long id_prestamo;
+    private Long idPrestamo;
 }

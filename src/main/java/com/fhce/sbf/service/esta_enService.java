@@ -11,15 +11,15 @@ public interface esta_enService {
 
     List<esta_enDtoResponse> findAll();
 
-    List<esta_enDtoResponse> buscarPorLibro(Long idLibro);
+    List<esta_enDtoResponse> buscarPorLibro(Long id_libro);
 
-    List<esta_enDtoResponse> buscarPorPrestamo(Long idPrestamo);
+    List<esta_enDtoResponse> buscarPorPrestamo(Long id_prestamo);
 
-    Long contarLibrosEnPrestamo(Long idPrestamo);
+    Long contarLibrosEnPrestamo(Long id_prestamo);
 
-    Long existeRelacion(Long idLibro, Long idPrestamo);
+    Long existeRelacion(Long id_libro, Long id_prestamo);
 
-    esta_enDtoResponse delete(Long idLibro, Long idPrestamo);
+    esta_enDtoResponse delete(Long id_libro, Long id_prestamo);
 
     List<Object[]> listarRelaciones();
 }
