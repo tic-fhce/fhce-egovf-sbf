@@ -44,8 +44,8 @@ public class libroController {
         }
     }
 
-    @PostMapping("/upload")
-    public ResponseEntity<?> subirArchivo(@RequestParam("file") MultipartFile file) {
+    @PostMapping(value = "/upload", consumes = "multipart/form-data")
+    public ResponseEntity<?> subirArchivo(@RequestPart("file") MultipartFile file) {
         try {
             if (file.isEmpty()) {
                 return ResponseEntity.badRequest().body("Archivo vacío");

@@ -1,12 +1,20 @@
 package com.fhce.sbf.controller;
 
-import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.fhce.sbf.dto.ejemplarDtoRequest;
 import com.fhce.sbf.dto.ejemplarDtoResponse;
@@ -101,37 +109,35 @@ public class ejemplarController {
         }
     }
     
-    @PostMapping("/upload-portada")
-    public ResponseEntity<?> uploadPortada(@RequestParam("file") MultipartFile file) {
+    @PostMapping(value = "/upload-portada", consumes = "multipart/form-data")
+    public ResponseEntity<?> uploadPortada(@RequestPart("file") MultipartFile file) {
         try {
-            // Validar si es una imagen
+            if (file.isEmpty()) {
+                return ResponseEntity.badRequest().body("Archivo vacío");
+            }
+
+            // Verificar que sea imagen
             String contentType = file.getContentType();
             if (contentType == null || !contentType.startsWith("image/")) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                        .body("Solo se permiten archivos de imagen.");
+                return ResponseEntity.badRequest().body("Solo se permiten archivos de imagen.");
             }
 
-            // Crear carpeta si no existe
-            String carpeta = "uploads/portadas/";
-            File dir = new File(carpeta);
-            if (!dir.exists()) {
-                dir.mkdirs();
-            }
+            String originalName = StringUtils.cleanPath(file.getOriginalFilename());
+            String extension = originalName.substring(originalName.lastIndexOf("."));
+            String fileName = System.currentTimeMillis() + extension;
 
-            // Generar nombre único
-            String nombreArchivo = System.currentTimeMillis() + "-" + file.getOriginalFilename();
-            File destino = new File(dir, nombreArchivo);
+            String uploadDir = "uploads/portadas/";
+            Path path = Paths.get(uploadDir + fileName);
+            Files.createDirectories(path.getParent());
+            Files.write(path, file.getBytes());
 
-            // Guardar imagen
-            file.transferTo(destino);
-
-            // Retornar la URL relativa para usarla en el DTO
-            String url = "/uploads/portadas/" + nombreArchivo;
-            return ResponseEntity.ok(url);
+            // Devuelve la URL relativa para guardar en el DTO
+            return ResponseEntity.ok("/" + uploadDir + fileName);
 
         } catch (IOException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Error al subir la portada: " + e.getMessage());
+                    .body("Error al subir portada: " + e.getMessage());
         }
     }
+
 }
