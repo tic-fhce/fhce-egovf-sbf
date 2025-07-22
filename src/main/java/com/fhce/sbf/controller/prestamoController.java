@@ -21,6 +21,7 @@ public class prestamoController {
 
     @Autowired
     private prestamoService service;
+    private final prestamoService prestamoService;
 
     @PostMapping("/save")
     public ResponseEntity<?> save(@RequestBody prestamoDtoRequest request) {
@@ -158,4 +159,15 @@ public class prestamoController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error al eliminar préstamo: " + e.getMessage());
         }
     }
+    
+    @PutMapping("/edit")
+    public ResponseEntity<?> edit(@RequestBody prestamoDtoResponse response) {
+        try {
+            return ResponseEntity.ok(prestamoService.edit(response));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body("Error al editar unidad: " + e.getMessage());
+        }
+    }
+
 }

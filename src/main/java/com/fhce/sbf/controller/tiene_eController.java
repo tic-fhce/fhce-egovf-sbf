@@ -106,4 +106,14 @@ public class tiene_eController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error al eliminar relación: " + e.getMessage());
         }
     }
+    
+    @PutMapping("/edit")
+    public ResponseEntity<?> edit(@RequestBody tiene_eDtoRequest dto) {
+        try {
+            return new ResponseEntity<>(service.editTiene_e(dto), HttpStatus.OK);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Error al editar la relación: " + e.getMessage());
+        }
+    }
 }

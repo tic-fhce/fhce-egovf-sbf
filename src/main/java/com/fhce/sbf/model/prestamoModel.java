@@ -29,6 +29,7 @@ public class prestamoModel {
 	@Column(name="_03id_lector")
 	private Long id_lector;
 	
-	//prestamo(id_prestamo, fecha_prestamo, fecha_devolucion, id_lector)
+	
+	
 }
 

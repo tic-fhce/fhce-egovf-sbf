@@ -22,4 +22,11 @@ public interface esta_enService {
     esta_enDtoResponse delete(Long id_libro, Long id_prestamo);
 
     List<Object[]> listarRelaciones();
+    
+    esta_enDtoResponse edit(esta_enDtoRequest dto);
+
+    List<esta_enDtoResponse> buscarPorEjemplar(Long idEjemplar);
+    Long contarPorEjemplar(Long idEjemplar);
+    List<Object[]> listarEjemplaresEnPrestamo(Long idPrestamo);
+
 }

@@ -86,5 +86,25 @@ public class tiene_eServiceImpl implements tiene_eService {
         dao.delete(model);
         return modelMapper.map(model, tiene_eDtoResponse.class);
     }
+    
+    @Override
+    @Transactional
+    public tiene_eDtoResponse editTiene_e(tiene_eDtoRequest dto) {
+        tiene_eModel existente = dao.findByCodigoAndEstado(dto.getCodigo(), dto.getId_estado());
+
+        if (existente == null) {
+            throw new RuntimeException("No se encontró la relación con código=" + dto.getCodigo() +
+                                       " y estado=" + dto.getId_estado());
+        }
+
+        existente.setCodigo(dto.getCodigo());
+        existente.setId_estado(dto.getId_estado());
+
+        tiene_eModel actualizado = dao.save(existente);
+
+        return modelMapper.map(actualizado, tiene_eDtoResponse.class);
+    }
+
+
 
 }

@@ -23,4 +23,5 @@ public interface prestamoService {
     Long contarPrestamosVencidos();
     Long contarPrestamosActivos();
     prestamoDtoResponse delete(prestamoDtoResponse prestamo);
-}
+    prestamoDtoResponse edit(prestamoDtoResponse dto);
+    }

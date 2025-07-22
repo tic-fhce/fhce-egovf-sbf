@@ -18,4 +18,7 @@ public class esta_enModel {
 
     @Column(name = "id_prestamo", nullable = false)
     private Long idPrestamo;
+    
+    @Column(name = "id_ejemplar", nullable = false)
+    private Long idEjemplar;
 }

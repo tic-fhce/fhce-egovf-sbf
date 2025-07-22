@@ -26,6 +26,17 @@ public class esta_enController {
         }
     }
 
+    @PutMapping("/edit")
+    public ResponseEntity<?> edit(@RequestBody esta_enDtoRequest request) {
+        try {
+            return new ResponseEntity<>(service.edit(request), HttpStatus.OK);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Error al editar relación libro-préstamo: " + e.getMessage());
+        }
+    }
+
+
     @GetMapping("/listar")
     public ResponseEntity<?> findAll() {
         try {
@@ -94,5 +105,24 @@ public class esta_enController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Error al listar relaciones personalizadas: " + e.getMessage());
         }
+    }
+    
+    
+ // Buscar relaciones por ejemplar
+    @GetMapping("/por-ejemplar")
+    public ResponseEntity<?> buscarPorEjemplar(@RequestParam Long idEjemplar) {
+        return ResponseEntity.ok(service.buscarPorEjemplar(idEjemplar));
+    }
+
+    // Contar cuántos préstamos tiene un ejemplar
+    @GetMapping("/contar-por-ejemplar")
+    public ResponseEntity<?> contarPorEjemplar(@RequestParam Long idEjemplar) {
+        return ResponseEntity.ok(service.contarPorEjemplar(idEjemplar));
+    }
+
+    // Ver detalle extendido de ejemplares en un préstamo
+    @GetMapping("/detalle-ejemplares-prestamo")
+    public ResponseEntity<?> verEjemplaresEnPrestamo(@RequestParam Long idPrestamo) {
+        return ResponseEntity.ok(service.listarEjemplaresEnPrestamo(idPrestamo));
     }
 }

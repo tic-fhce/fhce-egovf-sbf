@@ -28,7 +28,5 @@ public class ejemplarModel {
 	
 	@Column(name="_04id_libro")
 	private Long id_libro;
-
-	//ejemplar(Codigo, estado,id_libro, portada, direccion, id_libro)
 	
 }

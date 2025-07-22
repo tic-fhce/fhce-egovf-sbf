@@ -129,4 +129,19 @@ public class prestamoServiceImpl implements prestamoService {
         dao.delete(model);
         return modelMapper.map(model, prestamoDtoResponse.class);
     }
+    
+    @Override
+    @Transactional
+    public prestamoDtoResponse edit(prestamoDtoResponse dto) {
+        prestamoModel existente = dao.findById(dto.getId_prestamo())
+            .orElseThrow(() -> new RuntimeException("No se encontró el préstamo con ID: " + dto.getId_prestamo()));
+
+        existente.setFecha_pres(dto.getFecha_pres());
+        existente.setFecha_dev(dto.getFecha_dev());
+        existente.setId_lector(dto.getId_lector());
+
+        dao.save(existente);
+        return modelMapper.map(existente, prestamoDtoResponse.class);
+    }
+
 }

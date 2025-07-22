@@ -4,7 +4,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.fhce.sbf.dao.esta_enDao;
 import com.fhce.sbf.dto.esta_enDtoRequest;
@@ -12,42 +15,39 @@ import com.fhce.sbf.dto.esta_enDtoResponse;
 import com.fhce.sbf.model.esta_enModel;
 import com.fhce.sbf.service.esta_enService;
 
-import lombok.RequiredArgsConstructor;
-
 @Service
-@RequiredArgsConstructor
 public class esta_enServiceImpl implements esta_enService {
 
-    private final esta_enDao dao;
+    @Autowired
+    private esta_enDao dao;
+
+    @Autowired
+    private ModelMapper modelMapper;
 
     @Override
     public esta_enDtoResponse save(esta_enDtoRequest request) {
-        esta_enModel model = new esta_enModel();
-        model.setIdLibro(request.getIdLibro());
-        model.setIdPrestamo(request.getIdPrestamo());
-
-        esta_enModel saved = dao.save(model);
-        return new esta_enDtoResponse(saved.getIdEstaEn(), saved.getIdLibro(), saved.getIdPrestamo());
+        esta_enModel model = modelMapper.map(request, esta_enModel.class);
+        return modelMapper.map(dao.save(model), esta_enDtoResponse.class);
     }
 
     @Override
     public List<esta_enDtoResponse> findAll() {
         return dao.findAll().stream()
-            .map(m -> new esta_enDtoResponse(m.getIdEstaEn(), m.getIdLibro(), m.getIdPrestamo()))
+            .map(model -> modelMapper.map(model, esta_enDtoResponse.class))
             .collect(Collectors.toList());
     }
 
     @Override
     public List<esta_enDtoResponse> buscarPorLibro(Long idLibro) {
         return dao.findByIdLibro(idLibro).stream()
-            .map(m -> new esta_enDtoResponse(m.getIdEstaEn(), m.getIdLibro(), m.getIdPrestamo()))
+            .map(model -> modelMapper.map(model, esta_enDtoResponse.class))
             .collect(Collectors.toList());
     }
 
     @Override
     public List<esta_enDtoResponse> buscarPorPrestamo(Long idPrestamo) {
         return dao.findByIdPrestamo(idPrestamo).stream()
-            .map(m -> new esta_enDtoResponse(m.getIdEstaEn(), m.getIdLibro(), m.getIdPrestamo()))
+            .map(model -> modelMapper.map(model, esta_enDtoResponse.class))
             .collect(Collectors.toList());
     }
 
@@ -62,13 +62,13 @@ public class esta_enServiceImpl implements esta_enService {
     }
 
     @Override
+    @Transactional
     public esta_enDtoResponse delete(Long idLibro, Long idPrestamo) {
         Optional<esta_enModel> opt = dao.findByIdLibroAndIdPrestamo(idLibro, idPrestamo);
 
         if (opt.isPresent()) {
             dao.deleteByIdLibroAndIdPrestamo(idLibro, idPrestamo);
-            esta_enModel e = opt.get();
-            return new esta_enDtoResponse(e.getIdEstaEn(), e.getIdLibro(), e.getIdPrestamo());
+            return modelMapper.map(opt.get(), esta_enDtoResponse.class);
         } else {
             throw new RuntimeException("No se encontró la relación a eliminar.");
         }
@@ -78,4 +78,45 @@ public class esta_enServiceImpl implements esta_enService {
     public List<Object[]> listarRelaciones() {
         return dao.listarRelaciones();
     }
+
+    @Override
+    @Transactional
+    public esta_enDtoResponse edit(esta_enDtoRequest dto) {
+        Optional<esta_enModel> opt = dao.findByIdLibroAndIdPrestamoAndIdEjemplar(
+            dto.getIdLibro(), dto.getIdPrestamo(), dto.getIdEjemplar());
+
+        if (!opt.isPresent()) {
+            throw new RuntimeException("No se encontró la relación con id_libro=" + dto.getIdLibro()
+                + ", id_prestamo=" + dto.getIdPrestamo()
+                + ", id_ejemplar=" + dto.getIdEjemplar());
+        }
+
+        esta_enModel existente = opt.get();
+        existente.setIdLibro(dto.getIdLibro());
+        existente.setIdPrestamo(dto.getIdPrestamo());
+        existente.setIdEjemplar(dto.getIdEjemplar());
+
+        esta_enModel actualizado = dao.save(existente);
+
+        return modelMapper.map(actualizado, esta_enDtoResponse.class);
+    }
+
+    @Override
+    public List<esta_enDtoResponse> buscarPorEjemplar(Long idEjemplar) {
+        return dao.findByIdEjemplar(idEjemplar).stream()
+            .map(model -> modelMapper.map(model, esta_enDtoResponse.class))
+            .collect(Collectors.toList());
+    }
+
+    @Override
+    public Long contarPorEjemplar(Long idEjemplar) {
+        return dao.countByEjemplar(idEjemplar);
+    }
+
+    @Override
+    public List<Object[]> listarEjemplaresEnPrestamo(Long idPrestamo) {
+        return dao.listarEjemplaresEnPrestamo(idPrestamo);
+    }
+
+
 }

@@ -26,5 +26,6 @@ public interface tiene_eService {
     Long contarEstadosDeEjemplar(Long codigo);
 
     tiene_eDtoResponse delete(Long codigo, Long idEstado);
+    tiene_eDtoResponse editTiene_e(tiene_eDtoRequest dto);
 
 }
