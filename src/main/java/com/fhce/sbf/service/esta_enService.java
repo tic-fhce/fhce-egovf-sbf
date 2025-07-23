@@ -28,5 +28,7 @@ public interface esta_enService {
     List<esta_enDtoResponse> buscarPorEjemplar(Long idEjemplar);
     Long contarPorEjemplar(Long idEjemplar);
     List<Object[]> listarEjemplaresEnPrestamo(Long idPrestamo);
+    esta_enDtoResponse editarEstaEn(esta_enDtoResponse res);
+
 
 }

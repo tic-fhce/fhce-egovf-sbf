@@ -1,6 +1,7 @@
 package com.fhce.sbf.controller;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.fhce.sbf.dto.prestamoDtoRequest;
 import com.fhce.sbf.dto.prestamoDtoResponse;
+import com.fhce.sbf.model.prestamoModel;
 import com.fhce.sbf.service.prestamoService;
 
 import lombok.RequiredArgsConstructor;
@@ -169,5 +171,26 @@ public class prestamoController {
                 .body("Error al editar unidad: " + e.getMessage());
         }
     }
+    
+    @GetMapping("/prestamos-lector")
+    public ResponseEntity<?> obtenerPrestamosPorLector(@RequestParam Long id) {
+        try {
+            List<prestamoModel> lista = prestamoService.buscarPorLectorSiExiste(id);
+            return ResponseEntity.ok(lista);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/prestamos-admin-biblioteca")
+    public ResponseEntity<?> obtenerPrestamosAdmin(@RequestParam Long idUsuario) {
+        try {
+            List<Object[]> resultados = prestamoService.buscarPrestamosPorUsuarioAdmin(idUsuario);
+            return ResponseEntity.ok(resultados);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Error al obtener préstamos: " + e.getMessage());
+        }
+    }
+
 
 }

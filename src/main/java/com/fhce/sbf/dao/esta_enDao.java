@@ -12,7 +12,6 @@ import com.fhce.sbf.model.esta_enModel;
 public interface esta_enDao extends JpaRepository<esta_enModel, Long> {
 
     List<esta_enModel> findByIdLibro(Long idLibro);
-    List<esta_enModel> findByIdPrestamo(Long idPrestamo);
     boolean existsByIdLibroAndIdPrestamo(Long idLibro, Long idPrestamo);
     Long countByIdPrestamo(Long idPrestamo);
     void deleteByIdLibroAndIdPrestamo(Long idLibro, Long idPrestamo);
@@ -60,5 +59,7 @@ public interface esta_enDao extends JpaRepository<esta_enModel, Long> {
         @Param("idPrestamo") Long idPrestamo,
         @Param("idEjemplar") Long idEjemplar
     );
+    
+    Optional<esta_enModel> findByIdPrestamo(Long idPrestamo);
 
 }

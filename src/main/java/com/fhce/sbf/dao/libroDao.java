@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.fhce.sbf.model.libroModel;
 
@@ -69,4 +70,16 @@ public interface libroDao extends JpaRepository<libroModel, Long> {
         JOIN usuario u ON l._08id_usuario = u.id_usuario
         """, nativeQuery = true)
     List<Object[]> listarLibrosConBibliotecaYUsuario();
+    
+    @Query(value = """
+    	    SELECT 
+    	        b.id_biblioteca, b._01nombre, b._02direccion, b._05horario_atencion,
+    	        l.id_libro, l._01titulo, l._02autor, l._03anio
+    	    FROM biblioteca b
+    	    JOIN libro l ON l.id_biblioteca = b.id_biblioteca
+    	    WHERE b._07id_usuario = :idUsuario
+    	    ORDER BY b.id_biblioteca
+    	""", nativeQuery = true)
+    	List<Object[]> obtenerBibliotecasConLibrosPorUsuario(@Param("idUsuario") Long idUsuario);
+
 }

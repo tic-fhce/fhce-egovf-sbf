@@ -117,6 +117,24 @@ public class esta_enServiceImpl implements esta_enService {
     public List<Object[]> listarEjemplaresEnPrestamo(Long idPrestamo) {
         return dao.listarEjemplaresEnPrestamo(idPrestamo);
     }
+    @Override
+    @Transactional
+    public esta_enDtoResponse editarEstaEn(esta_enDtoResponse res) {
+        Optional<esta_enModel> opt = dao.findByIdPrestamo(res.getIdPrestamo());
+
+        if (!opt.isPresent()) {
+            throw new RuntimeException("No se encontró ninguna relación con id_prestamo = " + res.getIdPrestamo());
+        }
+
+        esta_enModel existente = opt.get();
+
+        existente.setIdLibro(res.getIdLibro());
+        existente.setIdEjemplar(res.getIdEjemplar());
+
+        dao.save(existente);
+        return modelMapper.map(existente, esta_enDtoResponse.class);
+    }
+
 
 
 }

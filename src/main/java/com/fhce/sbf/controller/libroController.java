@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 
 import org.springframework.util.StringUtils;
 
@@ -148,4 +149,16 @@ public class libroController {
                     .body("Error al buscar por año: " + e.getMessage());
         }
     }
+    
+    @GetMapping("/bibliotecas-libros")
+    public ResponseEntity<?> obtenerLibrosPorUsuario(@RequestParam Long idUsuario) {
+        try {
+            List<Object[]> resultados = service.obtenerBibliotecasConLibrosPorUsuario(idUsuario);
+            return ResponseEntity.ok(resultados);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Error al obtener datos: " + e.getMessage());
+        }
+    }
+
 }

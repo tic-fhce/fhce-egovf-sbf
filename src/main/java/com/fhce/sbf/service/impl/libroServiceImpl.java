@@ -79,4 +79,9 @@ public class libroServiceImpl implements libroService {
     public List<libroDtoResponse> buscarPorAnio(int anio) {
         return dao.findByAnio(anio).stream().map(l -> mapper.map(l, libroDtoResponse.class)).collect(Collectors.toList());
     }
+    @Override
+    public List<Object[]> obtenerBibliotecasConLibrosPorUsuario(Long idUsuario) {
+        return dao.obtenerBibliotecasConLibrosPorUsuario(idUsuario);
+    }
+
 }

@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.fhce.sbf.model.prestamoModel;
 
@@ -79,4 +80,24 @@ public interface prestamoDao extends JpaRepository<prestamoModel, Long> {
     // 15. Contar préstamos activos (aún no vencen)
     @Query(value = "SELECT COUNT(*) FROM prestamo WHERE _02fecha_devolucion >= CURDATE()", nativeQuery = true)
     Long contarPrestamosActivos();
+    
+    @Query(value = """
+    	    SELECT p.*
+    	    FROM prestamo p
+    	    WHERE p._03id_lector = :idLector
+    	""", nativeQuery = true)
+    	List<prestamoModel> buscarPrestamosPorLector(@Param("idLector") Long idLector);
+
+    	@Query(value = """
+    	    SELECT p.*, b._01nombre AS nombre_biblioteca, b._02direccion AS direccion
+    	    FROM prestamo p
+    	    JOIN esta_en ee ON p.id_prestamo = ee.id_prestamo
+    	    JOIN libro l ON ee.id_libro = l.id_libro
+    	    JOIN biblioteca b ON l.id_biblioteca = b.id_biblioteca
+    	    WHERE b._07id_usuario = :idUsuario
+    	    ORDER BY b.id_biblioteca, p.id_prestamo
+    	""", nativeQuery = true)
+    	List<Object[]> buscarPrestamosPorUsuarioAdmin(@Param("idUsuario") Long idUsuario);
+
+
 }

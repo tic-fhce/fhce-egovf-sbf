@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.fhce.sbf.dto.esta_enDtoRequest;
+import com.fhce.sbf.dto.esta_enDtoResponse;
 import com.fhce.sbf.service.esta_enService;
 
 import lombok.RequiredArgsConstructor;
@@ -27,14 +28,15 @@ public class esta_enController {
     }
 
     @PutMapping("/edit")
-    public ResponseEntity<?> edit(@RequestBody esta_enDtoRequest request) {
+    public ResponseEntity<?> edit(@RequestBody esta_enDtoResponse res) {
         try {
-            return new ResponseEntity<>(service.edit(request), HttpStatus.OK);
+            return ResponseEntity.ok(service.editarEstaEn(res));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body("Error al editar relación libro-préstamo: " + e.getMessage());
+                    .body("Error al editar esta_en: " + e.getMessage());
         }
     }
+
 
 
     @GetMapping("/listar")

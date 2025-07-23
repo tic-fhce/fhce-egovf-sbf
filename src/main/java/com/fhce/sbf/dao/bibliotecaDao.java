@@ -28,4 +28,9 @@ public interface bibliotecaDao extends JpaRepository<bibliotecaModel, Long> {
     // Buscar bibliotecas por coincidencia de horario
     @Query(value = "SELECT * FROM biblioteca WHERE _05horario_atencion LIKE CONCAT('%', ?1, '%')", nativeQuery = true)
     List<bibliotecaModel> findByHorarioAtencion(String horario);
+    
+    //Buscar biblioteca por id_usuario
+    @Query(value = "SELECT * FROM biblioteca WHERE _07id_usuario = ?", nativeQuery = true)
+    List<bibliotecaModel> findByUsuario(Long idUsuario);
+
 }

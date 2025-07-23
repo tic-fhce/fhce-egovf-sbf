@@ -99,4 +99,9 @@ public class bibliotecaServiceImpl implements bibliotecaService {
         return modelMapper.map(biblioteca, bibliotecaDtoResponse.class);
     }
 
+    @Override
+    public List<bibliotecaModel> buscarPorUsuario(Long idUsuario) {
+        return bibliotecaDao.findByUsuario(idUsuario);
+    }
+
 }

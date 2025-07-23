@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 import com.fhce.sbf.dto.prestamoDtoRequest;
 import com.fhce.sbf.dto.prestamoDtoResponse;
+import com.fhce.sbf.model.prestamoModel;
 
 public interface prestamoService {
     prestamoDtoResponse save(prestamoDtoRequest request);
@@ -24,4 +25,8 @@ public interface prestamoService {
     Long contarPrestamosActivos();
     prestamoDtoResponse delete(prestamoDtoResponse prestamo);
     prestamoDtoResponse edit(prestamoDtoResponse dto);
+    List<prestamoModel> buscarPorLectorSiExiste(Long id);
+
+    List<Object[]> buscarPrestamosPorUsuarioAdmin(Long idUsuario);
+
     }

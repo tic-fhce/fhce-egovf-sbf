@@ -36,4 +36,6 @@ public class bibliotecaModel {
 	@Column(name="_06id_facultad")
 	private Long id_facultad;
 	
+	@Column(name="_07id_usuario")
+	private Long id_usuario;
 }

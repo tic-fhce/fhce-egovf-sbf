@@ -15,4 +15,6 @@ public interface libroService {
     List<libroDtoResponse> buscarPorUsuario(Long id);
     List<libroDtoResponse> buscarPorTitulo(String titulo);
     List<libroDtoResponse> buscarPorAnio(int anio);
+    List<Object[]> obtenerBibliotecasConLibrosPorUsuario(Long idUsuario);
+
 }

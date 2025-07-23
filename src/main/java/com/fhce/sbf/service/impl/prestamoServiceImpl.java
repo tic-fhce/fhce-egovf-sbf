@@ -144,4 +144,25 @@ public class prestamoServiceImpl implements prestamoService {
         return modelMapper.map(existente, prestamoDtoResponse.class);
     }
 
+    @Autowired
+    private com.fhce.sbf.dao.usuarioDao usuarioDao;
+
+    @Autowired
+    private com.fhce.sbf.dao.lectorDao lectorDao;
+    @Override
+    public List<prestamoModel> buscarPorLectorSiExiste(Long id) {
+        if (lectorDao.existsById(id)) {
+            return dao.buscarPrestamosPorLector(id);
+        } else if (usuarioDao.existsById(id)) {
+            throw new RuntimeException("Este ID pertenece a un usuario administrador, use el endpoint de bibliotecas.");
+        } else {
+            throw new RuntimeException("ID no registrado como lector ni como usuario.");
+        }
+    }
+
+    @Override
+    public List<Object[]> buscarPrestamosPorUsuarioAdmin(Long idUsuario) {
+        return dao.buscarPrestamosPorUsuarioAdmin(idUsuario);
+    }
+
 }

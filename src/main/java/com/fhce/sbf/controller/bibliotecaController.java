@@ -91,4 +91,14 @@ public class bibliotecaController {
         }
     }
 
+
+        @GetMapping("/por-usuario")
+        public ResponseEntity<?> obtenerPorUsuario(@RequestParam Long idUsuario) {
+            try {
+                return ResponseEntity.ok(bibliotecaService.buscarPorUsuario(idUsuario));
+            } catch (Exception e) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                        .body("Error al obtener bibliotecas por usuario: " + e.getMessage());
+            }
+        }
 }

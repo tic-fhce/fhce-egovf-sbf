@@ -11,4 +11,5 @@ public class bibliotecaDtoRequest {
 	private Double longitud;
 	private String horario_atencion;
 	private Long id_facultad;
+	private Long id_usuario;
 }
