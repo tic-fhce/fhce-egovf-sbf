@@ -1,20 +1,14 @@
 package com.fhce.sbf.controller;
 
-import java.io.IOException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 
-import org.springframework.util.StringUtils;
 
 import com.fhce.sbf.dto.libroDtoRequest;
-import java.nio.file.Files;
 import com.fhce.sbf.dto.libroDtoResponse;
 import com.fhce.sbf.service.libroService;
-import org.springframework.web.multipart.MultipartFile;
 
 import lombok.RequiredArgsConstructor;
 
@@ -42,31 +36,6 @@ public class libroController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body("Error al agregar libro: " + e.getMessage());
-        }
-    }
-
-    @PostMapping(value = "/upload", consumes = "multipart/form-data")
-    public ResponseEntity<?> subirArchivo(@RequestPart("file") MultipartFile file) {
-        try {
-            if (file.isEmpty()) {
-                return ResponseEntity.badRequest().body("Archivo vacío");
-            }
-
-            String originalName = StringUtils.cleanPath(file.getOriginalFilename());
-            String extension = originalName.substring(originalName.lastIndexOf("."));
-            String fileName = System.currentTimeMillis() + extension;
-
-            String uploadDir = "uploads/libros/";
-            Path path = Paths.get(uploadDir + fileName);
-            Files.createDirectories(path.getParent());
-            Files.write(path, file.getBytes());
-
-            // Devuelve la URL que luego se usa en el DTO
-            return ResponseEntity.ok("/" + uploadDir + fileName);
-
-        } catch (IOException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Error al subir archivo: " + e.getMessage());
         }
     }
 

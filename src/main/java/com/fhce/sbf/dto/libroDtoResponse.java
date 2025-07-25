@@ -10,7 +10,6 @@ public class libroDtoResponse {
 	private String idioma;
 	private String signatura_topografica;
 	private int ejemplares;
-	private String contenido_pdf;
 	private Long id_usuario;
 	private Long id_biblioteca;
 }

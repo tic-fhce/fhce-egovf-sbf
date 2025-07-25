@@ -29,4 +29,6 @@ public class ejemplarModel {
 	@Column(name="_04id_libro")
 	private Long id_libro;
 	
+	@Column(name="_05contenidopdf")
+	private String contenido_pdf;
 }

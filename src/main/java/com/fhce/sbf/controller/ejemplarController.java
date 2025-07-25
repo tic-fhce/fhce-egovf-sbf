@@ -48,6 +48,30 @@ public class ejemplarController {
                     .body("Error al agregar ejemplar: " + e.getMessage());
         }
     }
+    
+    @PostMapping(value = "/upload", consumes = "multipart/form-data")
+    public ResponseEntity<?> subirArchivo(@RequestPart("file") MultipartFile file) {
+        try {
+            if (file.isEmpty()) {
+                return ResponseEntity.badRequest().body("Archivo vacío");
+            }
+
+            String originalName = StringUtils.cleanPath(file.getOriginalFilename());
+            String extension = originalName.substring(originalName.lastIndexOf("."));
+            String fileName = System.currentTimeMillis() + extension;
+
+            String uploadDir = "uploads/libros/";
+            Path path = Paths.get(uploadDir + fileName);
+            Files.createDirectories(path.getParent());
+            Files.write(path, file.getBytes());
+
+            return ResponseEntity.ok("/" + uploadDir + fileName);
+
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error al subir archivo: " + e.getMessage());
+        }
+    }
 
     @PutMapping("/edit")
     public ResponseEntity<?> edit(@RequestBody ejemplarDtoResponse dto) {

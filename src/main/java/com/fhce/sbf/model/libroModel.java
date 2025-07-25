@@ -36,12 +36,9 @@ public class libroModel {
 	@Column(name="_06ejemplares")
 	private int ejemplares;
 	
-	@Column(name="_07contenidopdf")
-	private String contenido_pdf;
-	
-	@Column(name="_08id_usuario")
+	@Column(name="_07id_usuario")
 	private Long id_usuario;
 	
-	@Column(name="_09id_biblioteca")
+	@Column(name="_08id_biblioteca")
 	private Long id_biblioteca;
 }

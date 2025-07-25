@@ -8,4 +8,5 @@ public class ejemplarDtoResponse {
 	private String portada;
 	private String direccion;
 	private Long id_libro;
+	private String contenido_pdf;
 }
