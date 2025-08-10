@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.fhce.sbf.dto.bibliotecaDtoRequest;
 import com.fhce.sbf.dto.bibliotecaDtoResponse;
+import com.fhce.sbf.model.bibliotecaModel;
 import com.fhce.sbf.service.bibliotecaService;
 
 import lombok.RequiredArgsConstructor;
@@ -101,4 +102,26 @@ public class bibliotecaController {
                         .body("Error al obtener bibliotecas por usuario: " + e.getMessage());
             }
         }
+        
+        @GetMapping("/contar/por-usuario")
+        public ResponseEntity<Long> contarPorUsuario(@RequestParam Long idUsuario) {
+            try {
+                return ResponseEntity.ok(bibliotecaService.contarBibliotecasPorUsuario(idUsuario));
+            } catch (Exception e) {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                        .body(0L);
+            }
+        }
+        @GetMapping("/biblioteca")
+        public ResponseEntity<?> obtenerBibliotecaPorId(@RequestParam Long idBiblioteca) {
+            try {
+                bibliotecaModel biblioteca = bibliotecaService.buscarPorId(idBiblioteca);
+                return ResponseEntity.ok(biblioteca);
+            } catch (Exception e) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body("Biblioteca no encontrada: " + e.getMessage());
+            }
+        }
+
+
 }

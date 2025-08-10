@@ -37,6 +37,7 @@ public interface libroDao extends JpaRepository<libroModel, Long> {
     // Buscar libros por usuario (quien los cargó)
     @Query(value = "SELECT * FROM libro WHERE _08id_usuario = ?", nativeQuery = true)
     List<libroModel> findByUsuario(Long idUsuario);
+    
 
     // Contar libros por biblioteca
     @Query(value = "SELECT COUNT(*) FROM libro WHERE _09id_biblioteca = ?", nativeQuery = true)
@@ -82,4 +83,20 @@ public interface libroDao extends JpaRepository<libroModel, Long> {
     	""", nativeQuery = true)
     	List<Object[]> obtenerBibliotecasConLibrosPorUsuario(@Param("idUsuario") Long idUsuario);
 
+    	@Query(value = """
+    		    SELECT * 
+    		    FROM libro l
+    		    WHERE l._09id_biblioteca IN (
+    		        SELECT b.id_biblioteca 
+    		        FROM biblioteca b 
+    		        WHERE b._07id_usuario = :idUsuarioAdmin
+    		    )
+    		    """, nativeQuery = true)
+    		List<libroModel> findLibrosByAdmin(@Param("idUsuarioAdmin") Long idUsuarioAdmin);
+    		@Query(value = """
+    			    SELECT COUNT(*) FROM libro l
+    			    JOIN biblioteca b ON l._09id_biblioteca = b.id_biblioteca
+    			    WHERE b._07id_usuario = ?1
+    			""", nativeQuery = true)
+    			Long countByBibliotecaUsuario(Long idUsuario);
 }

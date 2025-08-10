@@ -3,6 +3,7 @@ package com.fhce.sbf.service;
 import java.util.List;
 import com.fhce.sbf.dto.libroDtoRequest;
 import com.fhce.sbf.dto.libroDtoResponse;
+import com.fhce.sbf.model.libroModel;
 
 public interface libroService {
     List<libroDtoResponse> listarLibros();
@@ -16,5 +17,7 @@ public interface libroService {
     List<libroDtoResponse> buscarPorTitulo(String titulo);
     List<libroDtoResponse> buscarPorAnio(int anio);
     List<Object[]> obtenerBibliotecasConLibrosPorUsuario(Long idUsuario);
+    List<libroModel> buscarLibrosPorUsuarioAdmin(Long idUsuario);
+    Long contarLibrosPorUsuarioAdmin(Long idUsuario);
 
 }

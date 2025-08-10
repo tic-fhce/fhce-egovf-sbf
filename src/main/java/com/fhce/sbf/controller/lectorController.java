@@ -1,11 +1,14 @@
 package com.fhce.sbf.controller;
 
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.fhce.sbf.dto.lectorDtoRequest;
 import com.fhce.sbf.dto.lectorDtoResponse;
+import com.fhce.sbf.model.lectorModel;
 import com.fhce.sbf.service.lectorService;
 
 import lombok.RequiredArgsConstructor;
@@ -116,4 +119,16 @@ public class lectorController {
                     .body("Error al contar por carrera: " + e.getMessage());
         }
     }
+    
+    @GetMapping("/lectores-admin")
+    public ResponseEntity<?> obtenerLectoresPorAdmin(@RequestParam Long idUsuario) {
+        try {
+            List<lectorModel> lectores = lectorService.obtenerLectoresPorAdmin(idUsuario);
+            return ResponseEntity.ok(lectores);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Error al obtener lectores del admin: " + e.getMessage());
+        }
+    }
+
 }

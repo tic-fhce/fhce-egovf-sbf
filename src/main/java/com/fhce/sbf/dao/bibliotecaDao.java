@@ -1,11 +1,14 @@
 package com.fhce.sbf.dao;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.fhce.sbf.model.bibliotecaModel;
+import com.fhce.sbf.model.libroModel;
 
 public interface bibliotecaDao extends JpaRepository<bibliotecaModel, Long> {
 
@@ -33,4 +36,21 @@ public interface bibliotecaDao extends JpaRepository<bibliotecaModel, Long> {
     @Query(value = "SELECT * FROM biblioteca WHERE _07id_usuario = ?", nativeQuery = true)
     List<bibliotecaModel> findByUsuario(Long idUsuario);
 
+    @Query(value = """
+    	    SELECT * 
+    	    FROM libro l
+    	    WHERE l._09id_biblioteca IN (
+    	        SELECT b.id_biblioteca 
+    	        FROM biblioteca b 
+    	        WHERE b._07id_usuario = :idUsuarioAdmin
+    	    )
+    	    """, nativeQuery = true)
+    	List<libroModel> findLibrosByAdmin(@Param("idUsuarioAdmin") Long idUsuarioAdmin);
+
+    	Optional<bibliotecaModel> findById(Long idBiblioteca);
+    	@Query(value = "SELECT * FROM biblioteca WHERE _07id_usuario = ?1", nativeQuery = true)
+        List<bibliotecaModel> findByIdUsuario(Long idUsuario);
+
+        @Query(value = "SELECT COUNT(*) FROM biblioteca WHERE _07id_usuario = ?1", nativeQuery = true)
+        Long countByIdUsuario(Long idUsuario);
 }

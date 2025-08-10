@@ -5,9 +5,11 @@ import java.util.stream.Collectors;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import com.fhce.sbf.dao.ejemplarDao;
+import com.fhce.sbf.dao.libroDao; // <-- Importa el dao de libro
 import com.fhce.sbf.dto.ejemplarDtoRequest;
 import com.fhce.sbf.dto.ejemplarDtoResponse;
 import com.fhce.sbf.model.ejemplarModel;
+import com.fhce.sbf.model.libroModel;
 import com.fhce.sbf.service.ejemplarService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 public class ejemplarServiceImpl implements ejemplarService {
 
     private final ejemplarDao ejemplarDao;
+    private final libroDao libroDao; // <-- Inyectar el dao de libro
     private final ModelMapper modelMapper;
 
     @Override
@@ -32,6 +35,13 @@ public class ejemplarServiceImpl implements ejemplarService {
     public ejemplarDtoResponse addEjemplar(ejemplarDtoRequest dto) {
         ejemplarModel model = modelMapper.map(dto, ejemplarModel.class);
         ejemplarDao.save(model);
+
+        // 🔹 Incrementar ejemplares del libro
+        libroModel libro = libroDao.findById(model.getId_libro())
+            .orElseThrow(() -> new RuntimeException("Libro no encontrado"));
+        libro.setEjemplares(libro.getEjemplares() + 1);
+        libroDao.save(libro);
+
         return modelMapper.map(model, ejemplarDtoResponse.class);
     }
 
@@ -48,7 +58,15 @@ public class ejemplarServiceImpl implements ejemplarService {
     public ejemplarDtoResponse deleteEjemplar(ejemplarDtoResponse dto) {
         ejemplarModel model = ejemplarDao.findById(dto.getCodigo())
             .orElseThrow(() -> new RuntimeException("Ejemplar no encontrado"));
+        
         ejemplarDao.delete(model);
+
+        // 🔹 Decrementar ejemplares del libro
+        libroModel libro = libroDao.findById(model.getId_libro())
+            .orElseThrow(() -> new RuntimeException("Libro no encontrado"));
+        libro.setEjemplares(libro.getEjemplares() - 1);
+        libroDao.save(libro);
+
         return modelMapper.map(model, ejemplarDtoResponse.class);
     }
 

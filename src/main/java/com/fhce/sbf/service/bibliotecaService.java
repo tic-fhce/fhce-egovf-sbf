@@ -18,5 +18,7 @@ public interface bibliotecaService {
     Long contarPorFacultad(Long idFacultad);
     bibliotecaDtoResponse deleteBiblioteca(bibliotecaDtoResponse bibliotecaDtoResponse);
     List<bibliotecaModel> buscarPorUsuario(Long idUsuario);
+    Long contarBibliotecasPorUsuario(Long idUsuario);
+    bibliotecaModel buscarPorId(Long idBiblioteca);
 
 }

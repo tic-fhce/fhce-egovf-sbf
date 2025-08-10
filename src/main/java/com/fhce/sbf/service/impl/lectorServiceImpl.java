@@ -89,4 +89,10 @@ public class lectorServiceImpl implements lectorService {
     public Long countByCarrera(String carrera) {
         return lectorDao.countByCarrera(carrera);
     }
+    
+    @Override
+    public List<lectorModel> obtenerLectoresPorAdmin(Long idUsuario) {
+        return lectorDao.findLectoresPorAdmin(idUsuario);
+    }
+
 }

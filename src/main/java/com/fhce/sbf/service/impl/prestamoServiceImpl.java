@@ -160,9 +160,25 @@ public class prestamoServiceImpl implements prestamoService {
         }
     }
 
+    
     @Override
-    public List<Object[]> buscarPrestamosPorUsuarioAdmin(Long idUsuario) {
-        return dao.buscarPrestamosPorUsuarioAdmin(idUsuario);
+    public List<prestamoModel> buscarPrestamosPorUsuarioAdmin(Long idUsuario) {
+        return dao.findPrestamosByUsuarioAdmin(idUsuario);
+    }
+
+    @Override
+    public Long contarPrestamosPorUsuarioAdmin(Long idUsuario) {
+        return dao.countPrestamosByUsuarioAdmin(idUsuario);
+    }
+
+    @Override
+    public List<prestamoModel> buscarPrestamosActivosPorUsuarioAdmin(Long idUsuario) {
+        return dao.findPrestamosActivosByUsuarioAdmin(idUsuario);
+    }
+
+    @Override
+    public List<prestamoModel> buscarPrestamosVencidosPorUsuarioAdmin(Long idUsuario) {
+        return dao.findPrestamosVencidosByUsuarioAdmin(idUsuario);
     }
 
 }

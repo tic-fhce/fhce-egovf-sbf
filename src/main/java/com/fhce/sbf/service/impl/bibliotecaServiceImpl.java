@@ -104,4 +104,14 @@ public class bibliotecaServiceImpl implements bibliotecaService {
         return bibliotecaDao.findByUsuario(idUsuario);
     }
 
+    @Override
+    public Long contarBibliotecasPorUsuario(Long idUsuario) {
+        return bibliotecaDao.countByIdUsuario(idUsuario);
+    }
+
+    @Override
+    public bibliotecaModel buscarPorId(Long idBiblioteca) {
+        return bibliotecaDao.findById(idBiblioteca)
+                .orElseThrow(() -> new RuntimeException("Biblioteca no encontrada"));
+    }
 }

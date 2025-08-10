@@ -27,6 +27,9 @@ public interface prestamoService {
     prestamoDtoResponse edit(prestamoDtoResponse dto);
     List<prestamoModel> buscarPorLectorSiExiste(Long id);
 
-    List<Object[]> buscarPrestamosPorUsuarioAdmin(Long idUsuario);
+    List<prestamoModel> buscarPrestamosPorUsuarioAdmin(Long idUsuario);
+    Long contarPrestamosPorUsuarioAdmin(Long idUsuario);
+    List<prestamoModel> buscarPrestamosActivosPorUsuarioAdmin(Long idUsuario);
+    List<prestamoModel> buscarPrestamosVencidosPorUsuarioAdmin(Long idUsuario);
 
     }

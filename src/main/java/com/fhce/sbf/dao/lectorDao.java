@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.fhce.sbf.model.lectorModel;
 
@@ -36,5 +37,15 @@ public interface lectorDao extends JpaRepository<lectorModel, Long> {
     // Listar todos los lectores
     @Query(value = "SELECT * FROM lector", nativeQuery = true)
     List<lectorModel> listarLectores();
+    @Query(value = """
+    	    SELECT DISTINCT l.* 
+    	    FROM lector l
+    	    JOIN prestamo p ON l.id_lector = p._03id_lector
+    	    JOIN esta_en ee ON p.id_prestamo = ee.id_prestamo
+    	    JOIN libro lb ON ee.id_libro = lb.id_libro
+    	    JOIN biblioteca b ON lb._09id_biblioteca = b.id_biblioteca
+    	    WHERE b._07id_usuario = :idUsuario
+    	    """, nativeQuery = true)
+    	List<lectorModel> findLectoresPorAdmin(@Param("idUsuario") Long idUsuario);
 
 }

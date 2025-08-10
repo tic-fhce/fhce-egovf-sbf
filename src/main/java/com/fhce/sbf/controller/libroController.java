@@ -8,6 +8,7 @@ import java.util.List;
 
 import com.fhce.sbf.dto.libroDtoRequest;
 import com.fhce.sbf.dto.libroDtoResponse;
+import com.fhce.sbf.model.libroModel;
 import com.fhce.sbf.service.libroService;
 
 import lombok.RequiredArgsConstructor;
@@ -127,6 +128,36 @@ public class libroController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body("Error al obtener datos: " + e.getMessage());
+        }
+    }
+
+    @GetMapping("/buscar/por-usuario-admin")
+    public ResponseEntity<?> librosPorUsuarioAdmin(@RequestParam Long idUsuario) {
+        try {
+            return ResponseEntity.ok(service.buscarLibrosPorUsuarioAdmin(idUsuario));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error al buscar libros del administrador: " + e.getMessage());
+        }
+    }
+
+    @GetMapping("/contar/por-usuario-admin")
+    public ResponseEntity<?> contarLibrosPorUsuarioAdmin(@RequestParam Long idUsuario) {
+        try {
+            return ResponseEntity.ok(service.contarLibrosPorUsuarioAdmin(idUsuario));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(0);
+        }
+    }
+    @GetMapping("/libros-admin")
+    public ResponseEntity<?> obtenerLibrosAdmin(@RequestParam Long idUsuario) {
+        try {
+            List<libroModel> libros = service.buscarLibrosPorUsuarioAdmin(idUsuario);
+            return ResponseEntity.ok(libros);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Error al obtener libros del admin: " + e.getMessage());
         }
     }
 

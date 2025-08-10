@@ -185,12 +185,41 @@ public class prestamoController {
     @GetMapping("/prestamos-admin-biblioteca")
     public ResponseEntity<?> obtenerPrestamosAdmin(@RequestParam Long idUsuario) {
         try {
-            List<Object[]> resultados = prestamoService.buscarPrestamosPorUsuarioAdmin(idUsuario);
+            List<prestamoModel> resultados = prestamoService.buscarPrestamosPorUsuarioAdmin(idUsuario);
             return ResponseEntity.ok(resultados);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error al obtener préstamos: " + e.getMessage());
         }
     }
 
+    @GetMapping("/contar/admin")
+    public ResponseEntity<?> contarPrestamosPorUsuarioAdmin(@RequestParam Long idUsuario) {
+        try {
+            return ResponseEntity.ok(prestamoService.contarPrestamosPorUsuarioAdmin(idUsuario));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(0);
+        }
+    }
+
+    @GetMapping("/activos/admin")
+    public ResponseEntity<?> prestamosActivosPorUsuarioAdmin(@RequestParam Long idUsuario) {
+        try {
+            return ResponseEntity.ok(prestamoService.buscarPrestamosActivosPorUsuarioAdmin(idUsuario));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error al buscar préstamos activos: " + e.getMessage());
+        }
+    }
+
+    @GetMapping("/vencidos/admin")
+    public ResponseEntity<?> prestamosVencidosPorUsuarioAdmin(@RequestParam Long idUsuario) {
+        try {
+            return ResponseEntity.ok(prestamoService.buscarPrestamosVencidosPorUsuarioAdmin(idUsuario));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error al buscar préstamos vencidos: " + e.getMessage());
+        }
+    }
 
 }

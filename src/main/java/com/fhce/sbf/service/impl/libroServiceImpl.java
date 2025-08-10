@@ -84,4 +84,13 @@ public class libroServiceImpl implements libroService {
         return dao.obtenerBibliotecasConLibrosPorUsuario(idUsuario);
     }
 
+    @Override
+    public List<libroModel> buscarLibrosPorUsuarioAdmin(Long idUsuario) {
+        return dao.findByUsuario(idUsuario);
+    }
+
+    @Override
+    public Long contarLibrosPorUsuarioAdmin(Long idUsuario) {
+        return dao.countByBibliotecaUsuario(idUsuario);
+    }
 }

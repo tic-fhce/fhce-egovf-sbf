@@ -99,5 +99,54 @@ public interface prestamoDao extends JpaRepository<prestamoModel, Long> {
     	""", nativeQuery = true)
     	List<Object[]> buscarPrestamosPorUsuarioAdmin(@Param("idUsuario") Long idUsuario);
 
+    	@Query(value = """
+    		    SELECT DISTINCT p.* 
+    		    FROM prestamo p
+    		    JOIN esta_en ee ON p.id_prestamo = ee.id_prestamo
+    		    JOIN libro l ON ee.id_libro = l.id_libro
+    		    JOIN biblioteca b ON l._09id_biblioteca = b.id_biblioteca
+    		    WHERE b._07id_usuario = :idUsuarioAdmin
+    		    """, nativeQuery = true)
+    		List<prestamoModel> findPrestamosByAdmin(@Param("idUsuarioAdmin") Long idUsuarioAdmin);
+    		@Query(value = """
+    		        SELECT p.* FROM prestamo p
+    		        JOIN esta_en e ON e.id_prestamo = p.id_prestamo
+    		        JOIN ejemplar ej ON ej.id_ejemplar = e.id_ejemplar
+    		        JOIN libro l ON l.id_libro = ej.id_libro
+    		        JOIN biblioteca b ON b.id_biblioteca = l._09id_biblioteca
+    		        WHERE b._07id_usuario = ?1
+    		    """, nativeQuery = true)
+    		    List<prestamoModel> findPrestamosByUsuarioAdmin(Long idUsuario);
 
+    		    @Query(value = """
+    		        SELECT COUNT(*) FROM prestamo p
+    		        JOIN esta_en e ON e.id_prestamo = p.id_prestamo
+    		        JOIN ejemplar ej ON ej.id_ejemplar = e.id_ejemplar
+    		        JOIN libro l ON l.id_libro = ej.id_libro
+    		        JOIN biblioteca b ON b.id_biblioteca = l._09id_biblioteca
+    		        WHERE b._07id_usuario = ?1
+    		    """, nativeQuery = true)
+    		    Long countPrestamosByUsuarioAdmin(Long idUsuario);
+
+    		    @Query(value = """
+    		        SELECT p.* FROM prestamo p
+    		        JOIN esta_en e ON e.id_prestamo = p.id_prestamo
+    		        JOIN ejemplar ej ON ej.id_ejemplar = e.id_ejemplar
+    		        JOIN libro l ON l.id_libro = ej.id_libro
+    		        JOIN biblioteca b ON b.id_biblioteca = l._09id_biblioteca
+    		        WHERE b._07id_usuario = ?1
+    		        AND p._02fecha_devolucion >= CURRENT_DATE
+    		    """, nativeQuery = true)
+    		    List<prestamoModel> findPrestamosActivosByUsuarioAdmin(Long idUsuario);
+
+    		    @Query(value = """
+    		        SELECT p.* FROM prestamo p
+    		        JOIN esta_en e ON e.id_prestamo = p.id_prestamo
+    		        JOIN ejemplar ej ON ej.id_ejemplar = e.id_ejemplar
+    		        JOIN libro l ON l.id_libro = ej.id_libro
+    		        JOIN biblioteca b ON b.id_biblioteca = l._09id_biblioteca
+    		        WHERE b._07id_usuario = ?1
+    		        AND p._02fecha_devolucion < CURRENT_DATE
+    		    """, nativeQuery = true)
+    		    List<prestamoModel> findPrestamosVencidosByUsuarioAdmin(Long idUsuario);
 }
