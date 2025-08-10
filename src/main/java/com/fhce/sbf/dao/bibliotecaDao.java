@@ -39,7 +39,7 @@ public interface bibliotecaDao extends JpaRepository<bibliotecaModel, Long> {
     @Query(value = """
     	    SELECT * 
     	    FROM libro l
-    	    WHERE l._09id_biblioteca IN (
+    	    WHERE l._08id_biblioteca IN (
     	        SELECT b.id_biblioteca 
     	        FROM biblioteca b 
     	        WHERE b._07id_usuario = :idUsuarioAdmin

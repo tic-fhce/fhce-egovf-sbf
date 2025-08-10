@@ -43,7 +43,7 @@ public interface lectorDao extends JpaRepository<lectorModel, Long> {
     	    JOIN prestamo p ON l.id_lector = p._03id_lector
     	    JOIN esta_en ee ON p.id_prestamo = ee.id_prestamo
     	    JOIN libro lb ON ee.id_libro = lb.id_libro
-    	    JOIN biblioteca b ON lb._09id_biblioteca = b.id_biblioteca
+    	    JOIN biblioteca b ON lb._08id_biblioteca = b.id_biblioteca
     	    WHERE b._07id_usuario = :idUsuario
     	    """, nativeQuery = true)
     	List<lectorModel> findLectoresPorAdmin(@Param("idUsuario") Long idUsuario);
