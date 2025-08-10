@@ -31,7 +31,7 @@ public interface libroDao extends JpaRepository<libroModel, Long> {
     List<libroModel> findByAnio(int anio);
 
     // Buscar libros por biblioteca
-    @Query(value = "SELECT * FROM libro WHERE _09id_biblioteca = ?", nativeQuery = true)
+    @Query(value = "SELECT * FROM libro WHERE _08id_biblioteca = ?", nativeQuery = true)
     List<libroModel> findByBiblioteca(Long idBiblioteca);
 
     // Buscar libros por usuario (quien los cargó)
@@ -40,7 +40,7 @@ public interface libroDao extends JpaRepository<libroModel, Long> {
     
 
     // Contar libros por biblioteca
-    @Query(value = "SELECT COUNT(*) FROM libro WHERE _09id_biblioteca = ?", nativeQuery = true)
+    @Query(value = "SELECT COUNT(*) FROM libro WHERE _08id_biblioteca = ?", nativeQuery = true)
     Long countByBiblioteca(Long idBiblioteca);
 
     // Listar todos los libros
@@ -51,7 +51,7 @@ public interface libroDao extends JpaRepository<libroModel, Long> {
     @Query(value = """
         SELECT l.*, b._01nombre AS nombre_biblioteca 
         FROM libro l
-        JOIN biblioteca b ON l._09id_biblioteca = b.id_biblioteca
+        JOIN biblioteca b ON l._08id_biblioteca = b.id_biblioteca
         """, nativeQuery = true)
     List<Object[]> listarLibrosConBiblioteca();
 
@@ -67,7 +67,7 @@ public interface libroDao extends JpaRepository<libroModel, Long> {
     @Query(value = """
         SELECT l.*, b._01nombre AS nombre_biblioteca, u._01nombre_usuario AS nombre_usuario 
         FROM libro l
-        JOIN biblioteca b ON l._09id_biblioteca = b.id_biblioteca
+        JOIN biblioteca b ON l._08id_biblioteca = b.id_biblioteca
         JOIN usuario u ON l._08id_usuario = u.id_usuario
         """, nativeQuery = true)
     List<Object[]> listarLibrosConBibliotecaYUsuario();
@@ -86,7 +86,7 @@ public interface libroDao extends JpaRepository<libroModel, Long> {
     	@Query(value = """
     		    SELECT * 
     		    FROM libro l
-    		    WHERE l._09id_biblioteca IN (
+    		    WHERE l._08id_biblioteca IN (
     		        SELECT b.id_biblioteca 
     		        FROM biblioteca b 
     		        WHERE b._07id_usuario = :idUsuarioAdmin
@@ -95,7 +95,7 @@ public interface libroDao extends JpaRepository<libroModel, Long> {
     		List<libroModel> findLibrosByAdmin(@Param("idUsuarioAdmin") Long idUsuarioAdmin);
     		@Query(value = """
     			    SELECT COUNT(*) FROM libro l
-    			    JOIN biblioteca b ON l._09id_biblioteca = b.id_biblioteca
+    			    JOIN biblioteca b ON l._08id_biblioteca = b.id_biblioteca
     			    WHERE b._07id_usuario = ?1
     			""", nativeQuery = true)
     			Long countByBibliotecaUsuario(Long idUsuario);
